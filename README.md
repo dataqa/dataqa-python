@@ -1,6 +1,6 @@
 # DataQA
 
-TODO: Add logo here
+![alt text](https://dataqa.ai/static/images/logo-violet.png "DataQA")
 
 DataQA is a tool to perform AI model quality assessment (QA) using an interactive app that can be shared with technical and non-technical members of your team.
 
@@ -16,7 +16,7 @@ The official documentation page is at: [docs.dataqa.ai]().
 
 ## Step 1: create an account
 
-Go to (https://app.dataqa.ai/)[https://app.dataqa.ai/login] and follow the steps to create your first project. Once your account and your first project have been created, you will see a screen such as this one:
+Go to [https://app.dataqa.ai/](https://app.dataqa.ai/login) and follow the steps to create your first project. Once your account and your first project have been created, you will see a screen such as this one:
 
 TODO: Add screenshot of the screen with the publish string
 
@@ -28,7 +28,7 @@ Creating your first shareable QA app is as simple as this:
 
 ```python
 import pandas as pd
-from lib.publish import DataQA 
+from dataqa.publish import DataQA
 dataqa = DataQA()
 dataqa.login()
 # Prompt username and password
