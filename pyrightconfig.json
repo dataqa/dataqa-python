@@ -1,0 +1,14 @@
+{
+  "include": [
+    "dataqa"
+  ],
+
+  "exclude": [
+  ],
+
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+
+  "pythonVersion": "3.9",
+  "pythonPlatform": "Linux"
+}
