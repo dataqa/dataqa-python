@@ -1,8 +1,12 @@
 [tool.poetry]
-name = "dataqa-python"
-version = "0.1.0"
-description = ""
+name = "dataqa"
+version = "2.0.1"
+description = "Python Client library for DataQA"
 authors = ["Maria Mestre <maria@dataqa.ai>","Stuart Quin <stuart@dataqa.ai>"]
+readme = "README.md"
+homepage = "https://dataqa.ai"
+repository = "https://github.com/dataqa/dataqa-python"
+documentation = "https://docs.dataqa.ai"
 
 [tool.poetry.dependencies]
 python = "^3.8"
