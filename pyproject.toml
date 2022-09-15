@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dataqa"
-version = "2.0.1"
+version = "2.0.3"
 description = "Python Client library for DataQA"
 authors = ["Maria Mestre <maria@dataqa.ai>","Stuart Quin <stuart@dataqa.ai>"]
 readme = "README.md"

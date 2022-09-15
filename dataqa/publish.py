@@ -1,7 +1,7 @@
 from getpass import getpass
 import json
 import requests
-from typing import Optional
+from typing import Optional, List, Dict
 
 import pandas as pd
 
@@ -30,7 +30,7 @@ class DataQA:
 
         self.auth_token = response.json()["token"]
 
-    def create_release(self, project_id: str, column_mapping: list[dict]) -> str:
+    def create_release(self, project_id: str, column_mapping: List[Dict]) -> str:
         response = requests.post(
             self.api_url + "/api/v1/release/",
             headers={

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from dataclasses import dataclass
 
@@ -21,11 +21,11 @@ class PredictionColumn:
 
 @dataclass
 class ColumnMapping:
-    numerical_columns: Optional[list[str]] = None
-    categorical_columns: Optional[list[str]] = None
-    text_columns: Optional[list[str]] = None
-    time_columns: Optional[list[str]] = None
-    prediction_columns: Optional[list[PredictionColumn]] = None
+    numerical_columns: Optional[List[str]] = None
+    categorical_columns: Optional[List[str]] = None
+    text_columns: Optional[List[str]] = None
+    time_columns: Optional[List[str]] = None
+    prediction_columns: Optional[List[PredictionColumn]] = None
 
 
 class ColumnType:

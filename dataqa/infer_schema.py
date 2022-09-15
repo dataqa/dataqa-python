@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Optional, Union
+from typing import Any, Dict, Optional, Union, List
 
 import numpy as np
 import pandas as pd
@@ -25,11 +25,11 @@ def is_column_categorical(values: pd.Series) -> bool:
 
 def infer_schema(
     df: pd.DataFrame,
-    numerical_columns: Optional[list[str]] = None,
-    categorical_columns: Optional[list[str]] = None,
-    text_columns: Optional[list[str]] = None,
-    time_columns: Optional[list[str]] = None,
-    prediction_columns: Optional[list[PredictionColumn]] = None,
+    numerical_columns: Optional[List[str]] = None,
+    categorical_columns: Optional[List[str]] = None,
+    text_columns: Optional[List[str]] = None,
+    time_columns: Optional[List[str]] = None,
+    prediction_columns: Optional[List[PredictionColumn]] = None,
 ) -> ColumnMapping:
     """
     The keyword arguments will take precedence over the inferred schema.
@@ -159,8 +159,8 @@ def check_all_columns_in_df(df: pd.DataFrame, column_mapping: ColumnMapping):
 
 
 def check_categorical_columns(
-    df: pd.DataFrame, categorical_columns: list[str]
-) -> dict[str, list[Union[str, np.number]]]:
+    df: pd.DataFrame, categorical_columns: List[str]
+) -> Dict[str, List[Union[str, np.number]]]:
     """
     Make sure the dtype is numeric or string (not mixed) and that unique categories <= MAX_CATEGORICAL_UNIQUE
     """
@@ -184,19 +184,19 @@ def check_categorical_columns(
     return column_to_categories
 
 
-def check_numerical_columns(df: pd.DataFrame, numerical_columns: list[str]):
+def check_numerical_columns(df: pd.DataFrame, numerical_columns: List[str]):
     for column in numerical_columns:
         if not pd.api.types.is_numeric_dtype(df[column].dtype):
             raise Exception(f"Column {column} is not of type numerical.")
 
 
-def check_text_columns(df: pd.DataFrame, text_columns: list[str]):
+def check_text_columns(df: pd.DataFrame, text_columns: List[str]):
     for column in text_columns:
         if not pd.api.types.infer_dtype(df[column], skipna=True) == "string":
             raise Exception(f"Text column {column} is not of type string.")
 
 
-def check_time_columns(df: pd.DataFrame, time_columns: list[str]):
+def check_time_columns(df: pd.DataFrame, time_columns: List[str]):
     for column in time_columns:
         try:
             _ = pd.to_datetime(df[column], errors="raise")
@@ -204,13 +204,13 @@ def check_time_columns(df: pd.DataFrame, time_columns: list[str]):
             raise Exception(f"Column {column} cannot be cast to a datetime.")
 
 
-def is_subset(list1: list[Any], list2: list[Any]) -> bool:
+def is_subset(list1: List[Any], list2: List[Any]) -> bool:
     return len(set(list1).difference(set(list2))) == 0
 
 
 def check_prediction_columns(
     column_mapping: ColumnMapping,
-    column_to_categories: dict[str, list[Union[str, np.number]]],
+    column_to_categories: Dict[str, List[Union[str, np.number]]],
 ) -> dict:
     schema_dict = dict(
         (column, {"type": ColumnType.CATEGORICAL})
@@ -297,8 +297,8 @@ def check_prediction_columns(
 def format_validated_schema(
     df: pd.DataFrame,
     schema_dict: dict,
-    prediction_columns: list[PredictionColumn],
-    column_to_categories: dict[str, list[Union[str, np.number]]],
+    prediction_columns: List[PredictionColumn],
+    column_to_categories: Dict[str, List[Union[str, np.number]]],
 ) -> dict:
     new_schema = []
     prediction_columns_dict = {
