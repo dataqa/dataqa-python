@@ -28,6 +28,9 @@ class DataQA:
             data=json.dumps({"username": username, "password": password}),
         )
 
+        if not response.ok:
+            raise Exception(response.content)
+
         self.auth_token = response.json()["token"]
 
     def create_release(self, project_id: str, column_mapping: List[Dict]) -> str:
@@ -38,19 +41,23 @@ class DataQA:
             },
             json={"project": project_id, "column_mapping": column_mapping},
         )
+        if not response.ok:
+            raise Exception(response.content)
 
         release_id = response.json()["id"]
         return release_id
 
     def publish_data(self, df: pd.DataFrame, release_id: str):
         row_list = df.values.tolist()
-        _ = requests.post(
+        response = requests.post(
             self.api_url + "/api/v1/releasedata/",
             headers={
                 "Authorization": f"Token {self.auth_token}",
             },
             json={"release": release_id, "published_data": row_list},
         )
+        if not response.ok:
+            raise Exception(response.content)
 
     def publish(
         self,
