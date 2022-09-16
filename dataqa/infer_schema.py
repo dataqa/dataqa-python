@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict, Optional, Union, List
+from typing import Any, Dict, Optional, Tuple, Union, List
 
 import numpy as np
 import pandas as pd
@@ -211,7 +211,7 @@ def is_subset(list1: List[Any], list2: List[Any]) -> bool:
 def check_prediction_columns(
     column_mapping: ColumnMapping,
     column_to_categories: Dict[str, List[Union[str, np.number]]],
-) -> dict:
+) -> Dict:
     schema_dict = dict(
         (column, {"type": ColumnType.CATEGORICAL})
         for column in column_mapping.categorical_columns
@@ -279,8 +279,10 @@ def check_prediction_columns(
             )
 
         if task == PredictionTask.REGRESSION:
-            if schema_dict[prediction_column] != ColumnType.NUMERICAL:
-                raise Exception(f"Regression tasks only valid with numerical columns.")
+            if schema_dict[prediction_column]["type"] != ColumnType.NUMERICAL:
+                raise Exception(
+                    f"Regression tasks only valid with numerical columns {prediction_column}"
+                )
 
         if task == PredictionTask.CLASSIFICATION:
             if not schema_dict[prediction_column]["type"] in [
@@ -299,7 +301,7 @@ def format_validated_schema(
     schema_dict: dict,
     prediction_columns: List[PredictionColumn],
     column_to_categories: Dict[str, List[Union[str, np.number]]],
-) -> dict:
+) -> List:
     new_schema = []
     prediction_columns_dict = {
         column.prediction_column: column for column in prediction_columns
@@ -320,14 +322,14 @@ def format_validated_schema(
                 column_row["ground_truth"] = prediction_columns_dict[
                     column
                 ].ground_truth_column
-        new_schema.append(column_row)
+            new_schema.append(column_row)
 
     return new_schema
 
 
 def validate_schema(
     df: pd.DataFrame, column_mapping: ColumnMapping
-) -> [ColumnMapping, pd.DataFrame]:
+) -> Tuple[ColumnMapping, pd.DataFrame]:
     categorical_columns = column_mapping.categorical_columns or []
     numerical_columns = column_mapping.numerical_columns or []
     text_columns = column_mapping.text_columns or []
